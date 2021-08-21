@@ -10,7 +10,8 @@ defmodule CloudFlow.Application do
     children = [
       # Starts a worker by calling: CloudFlow.Worker.start_link(arg)
       # {CloudFlow.Worker, arg}
-      {CloudFlow.Repo, []}
+      {CloudFlow.Repo, []},
+      {CloudFlow.Douban.Run, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

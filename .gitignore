@@ -24,3 +24,6 @@ cloud_flow-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Secret Configs
+/config/*.secret.exs
