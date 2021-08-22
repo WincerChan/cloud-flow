@@ -25,8 +25,8 @@ defmodule CloudFlow.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.2"},
-      {:httpoison, "~> 1.8"},
-      {:floki, "~> 0.31.0"}
+      {:floki, "~> 0.31.0"},
+      {:finch, "~> 0.8"}
     ]
   end
 end
