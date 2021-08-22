@@ -11,7 +11,8 @@ defmodule CloudFlow.Application do
       # Starts a worker by calling: CloudFlow.Worker.start_link(arg)
       # {CloudFlow.Worker, arg}
       {CloudFlow.Repo, []},
-      {CloudFlow.Douban.Run, []}
+      {Finch, name: CloudFinch}
+      # {CloudFlow.Douban.Run, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

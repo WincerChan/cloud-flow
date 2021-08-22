@@ -8,5 +8,7 @@ defmodule CloudFlow.Model.Live do
     field(:title)
     field(:room_id, :integer)
     field(:member, :integer)
+    field(:player)
+    field(:danmu, :binary)
   end
 end

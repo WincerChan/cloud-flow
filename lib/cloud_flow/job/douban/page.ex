@@ -1,6 +1,6 @@
 defmodule CloudFlow.Douban.Page do
   require Logger
-  alias CloudFlow.Tool.Cast
+  alias CloudFlow.{Tool.Cast, Req}
   @douban_id Application.get_env(:cloud_flow, :douban_id)
 
   @default_args [:id, :tags, :date, :comment, :poster]
@@ -13,7 +13,8 @@ defmodule CloudFlow.Douban.Page do
   end
 
   def fetch_parse(url) do
-    HTTPoison.get!(url, cookie: "bid=jKc6sadczmE")
+    url
+    |> Req.get!(headers: [{"cookie", "bid=jKc6sadczmE"}])
     |> Map.fetch!(:body)
     |> Floki.parse_document!()
   end
