@@ -1,10 +1,11 @@
 defmodule CloudFlow.Douban.Page do
   require Logger
-  alias CloudFlow.{Tool.Cast, Req}
+  import Meeseeks.CSS
+  alias CloudFlow.Req
   @douban_id Application.get_env(:cloud_flow, :douban_id)
 
-  @default_args [:id, :tags, :date, :comment, :poster]
-  @special_args [:title, :rating]
+  @default_args [:id, :tags, :date, :comment, :poster, :rating]
+  @special_args [:title]
 
   def make_url_by_type(type, offset \\ 0) do
     url = "https://#{type}.douban.com/people/#{@douban_id}/collect?start=#{offset}"
@@ -15,8 +16,8 @@ defmodule CloudFlow.Douban.Page do
   def fetch_parse(url) do
     url
     |> Req.get!(headers: [{"cookie", "bid=jKc6sadczmE"}])
-    |> Map.fetch!(:body)
-    |> Floki.parse_document!()
+    |> Req.body()
+    |> Meeseeks.parse()
   end
 
   def parse(item, type) do
@@ -33,9 +34,9 @@ defmodule CloudFlow.Douban.Page do
     )
   end
 
-  defp find_item(pre, :book), do: Floki.find(pre, ".subject-item")
+  defp find_item(pre, :book), do: Meeseeks.all(pre, css(".subject-item"))
 
-  defp find_item(pre, :movie), do: Floki.find(pre, ".item")
+  defp find_item(pre, :movie), do: Meeseeks.all(pre, css(".item"))
 
   def fetch_page(type, offset \\ 0) do
     make_url_by_type(type, offset)

@@ -4,6 +4,7 @@ defmodule CloudFlow.Application do
   @moduledoc false
 
   use Application
+  @finch_name Application.fetch_env!(:cloud_flow, :finch_name)
 
   @impl true
   def start(_type, _args) do
@@ -11,7 +12,7 @@ defmodule CloudFlow.Application do
       # Starts a worker by calling: CloudFlow.Worker.start_link(arg)
       # {CloudFlow.Worker, arg}
       {CloudFlow.Repo, []},
-      {Finch, name: CloudFinch}
+      {Finch, name: @finch_name}
       # {CloudFlow.Douban.Run, []}
     ]
 

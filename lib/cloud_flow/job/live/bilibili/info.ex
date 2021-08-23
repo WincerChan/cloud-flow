@@ -20,7 +20,7 @@ defmodule CloudFlow.Live.Bilibili.Info do
         uid: trunc(1.0e14 + 2.0e14 * :rand.uniform()),
         protover: 1
       }
-      |> Jason.encode!()
+      |> :jiffy.encode()
 
     (<<byte_size(data) + 16::32>> <> <<0, 16, 0, 1, 7::32, 1::32>> <> data)
     |> :binary.bin_to_list()

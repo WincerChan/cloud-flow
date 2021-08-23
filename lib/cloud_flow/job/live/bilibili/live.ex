@@ -4,8 +4,8 @@ defmodule CloudFlow.Live.Bilibili.Live do
   @live_url "https://api.live.bilibili.com/xlive/web-room/v1/playUrl/playUrl"
   def fetch_api(room_id) do
     Req.get!("#{@api_url}#{room_id}")
-    |> Map.fetch!(:body)
-    |> Jason.decode!()
+    |> Req.body()
+    |> :jiffy.decode()
   end
 
   def parse_live_url(real_room_id) do
