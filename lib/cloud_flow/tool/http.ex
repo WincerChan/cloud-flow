@@ -20,18 +20,26 @@ defmodule CloudFlow.Req do
 
   @spec json(%{:body => binary(), optional(any) => any}) :: binary
   def json(%{body: b}) do
-    :jiffy.decode(b)
+    :jiffy.decode(b, [:return_maps])
   end
 
   @spec build_req(Finch.Request.t(), map()) :: Finch.Request.t()
   defp build_req(rq, %{headers: h} = params),
     do: build_req(%{rq | headers: h}, Map.delete(params, :headers))
 
-  defp build_req(rq, %{form: b} = params),
-    do: build_req(%{rq | body: URI.encode_query(b)}, Map.delete(params, :form))
+  defp build_req(rq, %{form: b} = params) do
+    rq = %{rq | body: URI.encode_query(b)}
 
-  defp build_req(rq, %{json: j} = params),
-    do: build_req(%{rq | body: :jiffy.encode(j)}, Map.delete(params, :json))
+    %{rq | headers: [{"Content-Type", "application/x-www-form-urlencoded"} | rq.headers]}
+    |> build_req(Map.delete(params, :form))
+  end
+
+  defp build_req(rq, %{json: j} = params) do
+    rq = %{rq | body: :jiffy.encode(j)}
+
+    %{rq | headers: [{"Content-Type", "application/json"} | rq.headers]}
+    |> build_req(Map.delete(params, :json))
+  end
 
   defp build_req(rq, %{query: q} = params),
     do: build_req(%{rq | query: URI.encode_query(q)}, Map.delete(params, :query))

@@ -1,11 +1,11 @@
-defmodule CloudFlow.Live.Bilibili.Live do
+defmodule CloudFlow.Bilibili.Live do
   alias CloudFlow.Req
   @api_url "https://api.live.bilibili.com/room/v1/Room/room_init?id="
   @live_url "https://api.live.bilibili.com/xlive/web-room/v1/playUrl/playUrl"
   def fetch_api(room_id) do
     Req.get!("#{@api_url}#{room_id}")
     |> Req.body()
-    |> :jiffy.decode()
+    |> :jiffy.decode([:return_maps])
   end
 
   def parse_live_url(real_room_id) do

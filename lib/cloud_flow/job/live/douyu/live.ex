@@ -1,4 +1,4 @@
-defmodule Douyu.Live do
+defmodule CloudFlow.Douyu.Live do
   # import Utils
   alias CloudFlow.{Req, Tool.Pattern}
   @prefix "https://playweb.douyucdn.cn/lapi/live/hlsH5Preview/"
@@ -15,11 +15,11 @@ defmodule Douyu.Live do
     ts = "#{:os.system_time(:millisecond)}"
 
     Req.post!("#{@prefix}#{room_id}",
-      body: [rid: room_id, did: 10_000_000_000_000_000_000_000_000_001_501],
+      form: [{"rid", room_id}, {"did", 10_000_000_000_000_000_000_000_000_001_501}],
       headers: [
-        rid: room_id,
-        time: ts,
-        auth: hash(room_id, ts)
+        {"rid", room_id},
+        {"time", ts},
+        {"auth", hash(room_id, ts)}
       ]
     )
     |> Req.json()

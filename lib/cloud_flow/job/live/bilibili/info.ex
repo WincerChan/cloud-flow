@@ -1,4 +1,4 @@
-defmodule CloudFlow.Live.Bilibili.Info do
+defmodule CloudFlow.Bilibili.Info do
   alias CloudFlow.Req
   @prefix "https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id="
 
