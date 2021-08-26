@@ -1,26 +1,27 @@
 defmodule CloudFlow.Douban.Parser do
-  import Meeseeks.CSS
   alias CloudFlow.Tool.Cast
 
   def date(book_item) do
     book_item
-    |> Meeseeks.one(css(".date"))
-    |> Meeseeks.own_text()
+    |> Floki.find(".date")
+    |> Floki.text(deep: false)
     |> String.split(" ")
     |> hd
+    |> String.trim()
     |> Date.from_iso8601!()
   end
 
   def url(item) do
     item
-    |> Meeseeks.one(css(".nbg"))
-    |> Meeseeks.attr("href")
+    |> Floki.find(".nbg")
+    |> Floki.attribute("href")
+    |> hd
   end
 
   def rating(item) do
     item
-    |> Meeseeks.one(css("span[class^=rating]"))
-    |> Meeseeks.attr("class")
+    |> Floki.find("span[class^=rating]")
+    |> Floki.attribute("class")
     |> to_string()
     |> String.at(6)
     |> Cast.to_integer()
@@ -28,22 +29,23 @@ defmodule CloudFlow.Douban.Parser do
 
   def title(item, :book) do
     item
-    |> Meeseeks.one(css("h2 > a"))
-    |> Meeseeks.attr("title")
+    |> Floki.find("h2 > a")
+    |> Floki.attribute("title")
   end
 
   def title(item, :movie) do
     item
-    |> Meeseeks.one(css(".title em"))
-    |> Meeseeks.own_text()
-    |> String.split(" / ")
+    |> Floki.find(".title em")
+    |> Floki.text(deep: false)
+    |> String.split("/")
     |> hd
+    |> String.trim()
   end
 
   def tags(item) do
     item
-    |> Meeseeks.one(css(".tags"))
-    |> Meeseeks.own_text()
+    |> Floki.find(".tags")
+    |> Floki.text(deep: false)
     |> to_string()
     |> String.split(" ")
     |> tl
@@ -51,14 +53,15 @@ defmodule CloudFlow.Douban.Parser do
 
   def poster(item) do
     item
-    |> Meeseeks.one(css("img"))
-    |> Meeseeks.attr("src")
+    |> Floki.find("img")
+    |> Floki.attribute("src")
+    |> hd
   end
 
   def comment(item) do
     item
-    |> Meeseeks.one(css(".comment"))
-    |> Meeseeks.own_text()
+    |> Floki.find(".comment")
+    |> Floki.text(deep: false)
   end
 
   def id(item) do

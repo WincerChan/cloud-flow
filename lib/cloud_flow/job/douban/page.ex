@@ -1,6 +1,5 @@
 defmodule CloudFlow.Douban.Page do
   require Logger
-  import Meeseeks.CSS
   alias CloudFlow.Req
   @douban_id Application.get_env(:cloud_flow, :douban_id)
 
@@ -17,7 +16,7 @@ defmodule CloudFlow.Douban.Page do
     url
     |> Req.get!(headers: [{"cookie", "bid=jKc6sadczmE"}])
     |> Req.body()
-    |> Meeseeks.parse()
+    |> Floki.parse_document!()
   end
 
   def parse(item, type) do
@@ -34,9 +33,9 @@ defmodule CloudFlow.Douban.Page do
     )
   end
 
-  defp find_item(pre, :book), do: Meeseeks.all(pre, css(".subject-item"))
+  defp find_item(pre, :book), do: Floki.find(pre, ".subject-item")
 
-  defp find_item(pre, :movie), do: Meeseeks.all(pre, css(".item"))
+  defp find_item(pre, :movie), do: Floki.find(pre, ".item")
 
   def fetch_page(type, offset \\ 0) do
     make_url_by_type(type, offset)
