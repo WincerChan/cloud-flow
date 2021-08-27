@@ -8,7 +8,7 @@ defmodule CloudFlow.Huya.Info do
 
   def avatar(body), do: Pattern.re_find(~r/sAvatar180":"http[s]?:(.*?)"/, body)
 
-  def member(body), do: Pattern.re_find(~r/lTotalCount":(.*?),/, body)
+  def member(body), do: Pattern.re_find(~r/lTotalCount":(.*?),/, body) |> String.to_integer()
 
   def danmu(body) do
     ayyuid = Pattern.re_find(~r/lYyid":([0-9]+),/, body)
@@ -29,7 +29,6 @@ defmodule CloudFlow.Huya.Info do
     <<>>
     |> Data.IntegerToBit.writeInteger(0, 1)
     |> Data.ByteToBit.writeBytes(1, buf)
-    |> :binary.bin_to_list()
   end
 
   def parse(room_id) do

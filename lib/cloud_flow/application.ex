@@ -11,7 +11,7 @@ defmodule CloudFlow.Application do
     children = [
       # Starts a worker by calling: CloudFlow.Worker.start_link(arg)
       # {CloudFlow.Worker, arg}
-      # {CloudFlow.Repo, []},
+      {CloudFlow.Repo, []},
       {Finch, name: @finch_name}
       # {CloudFlow.Douban.Run, []}
     ]

@@ -1,6 +1,7 @@
 defmodule CloudFlow.Live.Parser do
   @args [:author, :title, :member, :danmu]
-  def parse_info(module, room_id) do
+  def parse_info({platform, room_id}) do
+    module = Module.concat(CloudFlow, to_string(platform) |> String.capitalize())
     info_module = Module.concat(module, Info)
     live_module = Module.concat(module, Live)
     {init, body} = apply(info_module, :parse, [room_id])

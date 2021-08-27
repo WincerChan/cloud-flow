@@ -17,7 +17,14 @@ defmodule CloudFlow.Load.Live do
     records = Enum.map(records, &Douban.struct_to_map/1)
 
     CloudFlow.Model.Live
-    |> CloudFlow.Repo.insert_all(records, on_conflict: :nothing)
+    |> CloudFlow.Repo.insert_all(records,
+      on_conflict: :replace_all,
+      conflict_target: [:platform, :room_id]
+    )
+  end
+
+  def insert_one(record) do
+    CloudFlow.Repo.insert(record)
   end
 
   def batch_load(records) do

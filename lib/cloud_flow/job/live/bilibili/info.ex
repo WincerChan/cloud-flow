@@ -22,8 +22,7 @@ defmodule CloudFlow.Bilibili.Info do
       }
       |> Jason.encode!()
 
-    (<<byte_size(data) + 16::32>> <> <<0, 16, 0, 1, 7::32, 1::32>> <> data)
-    |> :binary.bin_to_list()
+    <<byte_size(data) + 16::32>> <> <<0, 16, 0, 1, 7::32, 1::32>> <> data
   end
 
   def avatar(room),
