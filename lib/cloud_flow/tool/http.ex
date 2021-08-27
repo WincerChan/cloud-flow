@@ -20,7 +20,7 @@ defmodule CloudFlow.Req do
 
   @spec json(%{:body => binary(), optional(any) => any}) :: binary
   def json(%{body: b}) do
-    :jiffy.decode(b, [:return_maps])
+    Jason.decode!(b)
   end
 
   @spec build_req(Finch.Request.t(), map()) :: Finch.Request.t()
@@ -35,7 +35,7 @@ defmodule CloudFlow.Req do
   end
 
   defp build_req(rq, %{json: j} = params) do
-    rq = %{rq | body: :jiffy.encode(j)}
+    rq = %{rq | body: Jason.encode!(j)}
 
     %{rq | headers: [{"Content-Type", "application/json"} | rq.headers]}
     |> build_req(Map.delete(params, :json))

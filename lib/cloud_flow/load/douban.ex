@@ -41,7 +41,7 @@ defmodule CloudFlow.Load.Douban do
   def load_file(file) do
     file
     |> File.read!()
-    |> :jiffy.decode([:return_maps])
+    |> Jason.decode!()
     |> batch_load()
   end
 end

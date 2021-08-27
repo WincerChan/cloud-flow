@@ -5,7 +5,7 @@ defmodule CloudFlow.Bilibili.Live do
   def fetch_api(room_id) do
     Req.get!("#{@api_url}#{room_id}")
     |> Req.body()
-    |> :jiffy.decode([:return_maps])
+    |> Jason.decode()
   end
 
   def parse_live_url(real_room_id) do

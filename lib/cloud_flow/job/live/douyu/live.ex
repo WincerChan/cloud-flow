@@ -12,10 +12,10 @@ defmodule CloudFlow.Douyu.Live do
   end
 
   def fetch_body(room_id) do
-    ts = "#{:os.system_time(:millisecond)}"
+    ts = :os.system_time(:millisecond) |> to_string()
 
     Req.post!("#{@prefix}#{room_id}",
-      form: [{"rid", room_id}, {"did", 10_000_000_000_000_000_000_000_000_001_501}],
+      form: [{"rid", room_id}, {"did", "10000000000000000000000000001501"}],
       headers: [
         {"rid", room_id},
         {"time", ts},
@@ -30,12 +30,13 @@ defmodule CloudFlow.Douyu.Live do
   defp find_url(data) do
     rtmp = Map.fetch!(data, "rtmp_live")
     key = Pattern.re_find(~r/(\d{1,7}[0-9a-zA-Z]+)_?\d{0,4}(.m3u8)/, rtmp)
-    "#{Application.fetch_env!(:live_parser, :douyu_prefix)}#{key}.flv"
+    "#{Application.fetch_env!(:cloud_flow, :douyu_prefix)}#{key}.flv"
   end
 
   def parse(room_id) do
     %{"data" => data} =
       room_id
+      |> to_string()
       |> fetch_body()
 
     data |> find_url()
