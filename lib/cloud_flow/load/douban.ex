@@ -2,12 +2,12 @@ defmodule CloudFlow.Load.Douban do
   @drops [:__meta__]
 
   @spec into(map) :: map
-  defp into(record) do
+  def into(record) do
     for {key, val} <- record, into: %{}, do: {String.to_atom(key), val}
   end
 
   @spec struct_to_map(CloudFlow.Model.Douban) :: map
-  defp struct_to_map(record) do
+  def struct_to_map(record) do
     record
     |> Map.from_struct()
     |> Map.drop(@drops)

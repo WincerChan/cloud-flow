@@ -1,5 +1,4 @@
 defmodule CloudFlow.Douyu.Live do
-  # import Utils
   alias CloudFlow.{Req, Tool.Pattern}
   @prefix "https://playweb.douyucdn.cn/lapi/live/hlsH5Preview/"
 

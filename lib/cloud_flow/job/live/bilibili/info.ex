@@ -1,5 +1,5 @@
 defmodule CloudFlow.Bilibili.Info do
-  alias CloudFlow.Req
+  alias CloudFlow.{Req, Model.Live}
   @prefix "https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id="
 
   def fetch_info(base, room_id) do
@@ -26,19 +26,17 @@ defmodule CloudFlow.Bilibili.Info do
     |> :binary.bin_to_list()
   end
 
+  def avatar(room),
+    do: room |> Map.fetch!("anchor_info") |> Map.fetch!("base_info") |> Map.fetch!("face")
+
+  def title(room), do: room |> Map.fetch!("room_info") |> Map.fetch!("title")
+  def member(room), do: room |> Map.fetch!("room_info") |> Map.fetch!("online")
+
+  def author(room),
+    do: room |> Map.fetch!("anchor_info") |> Map.fetch!("base_info") |> Map.fetch!("uname")
+
   def parse(room_id) do
     room = fetch_info(@prefix, room_id)
-    avatar = room |> Map.fetch!("anchor_info") |> Map.fetch!("base_info") |> Map.fetch!("face")
-    title = room |> Map.fetch!("room_info") |> Map.fetch!("title")
-    users = room |> Map.fetch!("room_info") |> Map.fetch!("online")
-    author = room |> Map.fetch!("anchor_info") |> Map.fetch!("base_info") |> Map.fetch!("uname")
-
-    %{
-      avatar: avatar,
-      title: title,
-      users: users,
-      author: author,
-      init_danmu: danmu(room)
-    }
+    {%Live{platform: :bilibili, room_id: room_id}, room}
   end
 end
