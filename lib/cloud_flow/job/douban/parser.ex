@@ -31,6 +31,7 @@ defmodule CloudFlow.Douban.Parser do
     item
     |> Floki.find("h2 > a")
     |> Floki.attribute("title")
+    |> hd()
   end
 
   def title(item, :movie) do

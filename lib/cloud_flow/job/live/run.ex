@@ -27,7 +27,7 @@ defmodule CloudFlow.Live.Run do
   end
 
   def log(num, type) do
-    Logger.warn("Adding #{num} Douban #{type}(s).")
+    Logger.warn("Adding #{num} Live #{type}(s).")
     num
   end
 
@@ -44,6 +44,7 @@ defmodule CloudFlow.Live.Run do
     |> Enum.map(&Task.await/1)
     |> Live.bulk_insert()
     |> elem(0)
+    |> log("")
     |> fetch_last(page + 1)
   end
 
