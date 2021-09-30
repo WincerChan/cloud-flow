@@ -26,7 +26,8 @@ defmodule CloudFlow.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:finch, "~> 0.8"},
       {:jason, "~> 1.1"},
-      {:floki, "~> 0.31.0"}
+      {:floki, "~> 0.31.0"},
+      {:epmdlex, "~> 0.1.1"}
     ]
   end
 end
