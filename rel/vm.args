@@ -9,7 +9,6 @@
 
 ## Tweak GC to run more often
 ##-env ERL_FULLSWEEP_AFTER 10
-
 -start_epmd false
--proto_dist Elixir.Epmdless
--epmd_module Elixir.Epmdless_epmd_client
+-erl_epmd_port 8001
+-name cloud_flow@localhost
