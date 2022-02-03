@@ -5,6 +5,7 @@ defmodule CloudFlow.Live.Parser do
     info_module = Module.concat(module, Info)
     live_module = Module.concat(module, Live)
     {init, body} = apply(info_module, :parse, [room_id])
+    init = Map.put(init, :updated, DateTime.utc_now())
 
     Enum.reduce(
       @args,

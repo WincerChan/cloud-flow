@@ -9,10 +9,11 @@ defmodule CloudFlow.Huya.Live do
       |> Base.decode64!()
       |> URI.parse()
       |> Map.fetch!(:path)
+      |> String.trim(".m3u8")
 
     case s do
       nil -> ""
-      _ -> "#{Application.fetch_env!(:cloud_flow, :huya_prefix)}#{s}"
+      _ -> "#{Application.fetch_env!(:cloud_flow, :huya_prefix)}#{s}.xs"
     end
   end
 

@@ -11,5 +11,7 @@ defmodule CloudFlow.Model.Live do
     field(:member, :integer)
     field(:player)
     field(:danmu, :binary)
+    field(:avatar)
+    field(:updated, :utc_datetime_usec)
   end
 end

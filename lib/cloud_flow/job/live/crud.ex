@@ -5,12 +5,13 @@ defmodule CloudFlow.Live.Crud do
   def get_platform(platform) do
     from(l in Live,
       where: l.platform == ^platform,
-      select: {l.room_id, l.author, l.title}
+      select: {l.room_id, l.author, l.title, l.avatar}
     )
     |> Repo.all()
   end
 
   def get_one_room(platform, room_id) do
+    spawn(fn -> update_room(platform, room_id) end)
     from(l in Live,
       where: l.platform == ^platform and l.room_id == ^room_id
     )
